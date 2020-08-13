@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="MAIN">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="CRYENGINE">
+      <UniqueIdentifier>{b6cda030-fff3-4ca4-a995-7739f9da923a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>MAIN</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="header.h">
+      <Filter>MAIN</Filter>
+    </ClInclude>
+    <ClInclude Include="vmt.h">
+      <Filter>MAIN</Filter>
+    </ClInclude>
+    <ClInclude Include="cClasess.h">
+      <Filter>CRYENGINE</Filter>
+    </ClInclude>
+    <ClInclude Include="cFunction.h">
+      <Filter>CRYENGINE</Filter>
+    </ClInclude>
+    <ClInclude Include="cHelper.h">
+      <Filter>CRYENGINE</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
