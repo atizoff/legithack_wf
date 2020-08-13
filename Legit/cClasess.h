@@ -6,6 +6,7 @@ class SSystemGlobalEnvironment;
 class IGameFramework;
 class IGameRules;
 class IRenderer;
+class ICVar;
 
 class IActor;
 class IActorSystem;
@@ -23,15 +24,24 @@ t VIRTUAL(PVOID BASE, DWORD64 INDEX)
 
 enum IActor_DATA : DWORD64
 {
-	// -> string -> по имени
+	// -> string -> by name
 	claymore_detector_radius = 0xEA4
+};
+
+enum ICVar_DATA : DWORD64
+{
+	// -> string -> by name
+	i_pelletsDisp = 0x128,
+	g_victoryCondition = 0x600,
+	i_unlimitedammo = 0x130,
+	cl_fov = 0x4
 };
 
 class SSystemGlobalEnvironment
 {
 public:
-	IRenderer*	   GetIRenderer()	  { return (IRenderer*)    *(DWORD64*)((DWORD64)this + 0x48); } // string -> Draw2DLine ( не помню =( )
-	IEntitySystem* GetIEntitySystem() { return (IEntitySystem*)*(DWORD64*)((DWORD64)this + 0xD8); } // string -> GetEntityByName || // string -> GetEntitiesByClass
+	IRenderer*	   GetIRenderer()	  { return (IRenderer*)    *(DWORD64*)((DWORD64)this + 0x48); } // string -> Draw2DLine ( ? )
+	IEntitySystem* GetIEntitySystem() 	  { return (IEntitySystem*)*(DWORD64*)((DWORD64)this + 0xD8); } // string -> GetEntityByName || // string -> GetEntitiesByClass
 
 	static SSystemGlobalEnvironment* Singleton()
 	{
@@ -111,6 +121,12 @@ public:
 	IGameRules* GetIGameRules()
 	{
 		return VIRTUAL<IGameRules* (__thiscall*)(PVOID)>(this, 137)(this); // string -> IsSameTeam
+		/* reverse
+		  v4 = a4;
+		  v5 = a3;
+		  v6 = a2;
+		  v7 = (*(__int64 (**)(void))(**(_QWORD **)(a1 + 208) + 1096i64))(); <-- 1096 / 8 = 137 (if 64 bit = 8, if 32 bit = 4)
+		*/
 	}
 
 	static IGameFramework* Singleton() { return *(IGameFramework**)0x142056558; } // string -> Failed to create the GameFramework Interface!
@@ -122,6 +138,27 @@ public:
 	INT GetTeam(int entityId)
 	{
 		return VIRTUAL<INT(__fastcall*)(PVOID, int)>(this, 109)(this, entityId); // string -> IsSameTeam
+		/* reverse
+		///////////////////// step 1
+		DWORD2(v8) = 0;
+		*(_QWORD *)&v8 = sub_14113E890; <-- here
+		if ( v2 )
+		{
+			v19 = v1;
+			v9 = "IsSameTeam";
+		///////////////////// step 2
+		v7 = (*(__int64 (**)(void))(**(_QWORD **)(a1 + 208) + 1096i64))(); 
+		v10 = 2;
+		if ( v7 )
+			LOBYTE(v11) = sub_141008850(v7, v5, v4); <-- here
+		else
+			LOBYTE(v11) = 0;
+		///////////////////// step 3
+		v6 = *(_DWORD *)(qword_1420558B8 + 1536);
+		if ( v6 <= 0xB && v6 != 3 )
+			return a2 == a3
+				|| (*(unsigned int (__fastcall **)(__int64))(*(_QWORD *)v3 + 872i64))(v3) <-- 872 / 8 = 109 (if 64 bit = 8, if 32 bit = 4)
+		*/
 	}
 };
 
@@ -146,6 +183,48 @@ public:
 	IActor* GetActor(int entityId)
 	{
 		return VIRTUAL<IActor* (__thiscall*)(PVOID, int)>(this, 15)(this, entityId);
+	}
+};
+
+class ICVar
+{
+public:
+	template <class T>
+	inline VOID Set(DWORD64 offset, T value)
+	{
+		*(T*)((DWORD64)this + offset) = value;
+	}
+	template <class T>
+	inline T Get(DWORD64 offset)
+	{
+		return *(T*)((DWORD64)this + offset);
+	}
+
+	static ICVar* Singleton()
+	{
+		return *(ICVar**)0x1420558B8; // string -> IsSameTeam
+		/* reverse
+
+			  ///////////////////// step 1
+			  DWORD2(v8) = 0;
+			  *(_QWORD *)&v8 = sub_14113E890; <-- here
+			  if ( v2 )
+			  {
+				v19 = v1;
+				v9 = "IsSameTeam";
+			  ///////////////////// step 2
+			  v7 = (*(__int64 (**)(void))(**(_QWORD **)(a1 + 208) + 1096i64))();
+              v10 = 2;
+              if ( v7 )
+				LOBYTE(v11) = sub_141008850(v7, v5, v4); <-- here
+              else
+				LOBYTE(v11) = 0;
+			  ///////////////////// step 3
+				v3 = a1;
+				v4 = a3;
+				v5 = a2;
+				v6 = *(_DWORD *)(qword_1420558B8 + 1536); <-- end | 0x1420558B8
+		*/ 
 	}
 };
 
