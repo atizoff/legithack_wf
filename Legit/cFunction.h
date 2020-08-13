@@ -19,23 +19,29 @@ void function()
 
 	if (IGameFramework* g_pGame = IGameFramework::Singleton())
 	{
-		if (g_pGame->GetClientActor(&m_pActor))
+		if (ICVar* g_pCvar = ICVar::Singleton())
 		{
-			m_pActor->Set(IActor_DATA::claymore_detector_radius, 999);
-
-
-			IEntityIt* pEntityIt = g_pEnv->GetIEntitySystem()->GetEntityIterator();
-
-			while (IEntity* m_pEntity = pEntityIt->Next())
+			if (g_pGame->GetClientActor(&m_pActor))
 			{
-				IEntityProxy* pEntityProxy = m_pEntity->GetProxy(ENTITY_PROXY_RENDER);
-				if (!pEntityProxy) continue;
+				m_pActor->Set(IActor_DATA::claymore_detector_radius, 999);
 
-				if (IActor* pActor = g_pGame->GetActorSystem()->GetActor(m_pEntity->GetId()))
+				g_pCvar->Set(ICVar_DATA::i_pelletsDisp, 999.f);
+				g_pCvar->Set(ICVar_DATA::cl_fov, 90.f);
+
+
+				IEntityIt* pEntityIt = g_pEnv->GetIEntitySystem()->GetEntityIterator();
+
+				while (IEntity* m_pEntity = pEntityIt->Next())
 				{
-					if (!IsMyTeam(m_pActor, pActor)) continue;
+					IEntityProxy* pEntityProxy = m_pEntity->GetProxy(ENTITY_PROXY_RENDER);
+					if (!pEntityProxy) continue;
 
-					pEntityProxy->SetHUDSilhouettesParams(255, 255, 0, 0);
+					if (IActor* pActor = g_pGame->GetActorSystem()->GetActor(m_pEntity->GetId()))
+					{
+						if (!IsMyTeam(m_pActor, pActor)) continue;
+
+						pEntityProxy->SetHUDSilhouettesParams(255, 255, 0, 0);
+					}
 				}
 			}
 		}
