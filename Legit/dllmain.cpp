@@ -20,7 +20,7 @@ void APIENTRY engine()
 	Sleep(10000);
 	Beep(800, 800);
 
-	VmtHook->bInitialize((PDWORD64*)SSystemGlobalEnvironment::Singleton()->GetIRenderer()->GetDirectDevice());
+	VmtHook->bInitialize((PDWORD64*)SSystemGlobalEnvironment::Singleton()->GetIRenderer()->m_pDirectDevice);
 	oPresent = (PresentSceneFN)VmtHook->dwHookMethod((DWORD64)pPresent, 17);
 }
 
