@@ -40,8 +40,8 @@ enum ICVar_DATA : DWORD64
 class SSystemGlobalEnvironment
 {
 public:
-	IRenderer*	   GetIRenderer()	  { return (IRenderer*)    *(DWORD64*)((DWORD64)this + 0x48); } // string -> Draw2DLine ( ? )
-	IEntitySystem* GetIEntitySystem() 	  { return (IEntitySystem*)*(DWORD64*)((DWORD64)this + 0xD8); } // string -> GetEntityByName || // string -> GetEntitiesByClass
+	IRenderer*	   GetIRenderer()	  { return *(IRenderer**)((DWORD64)this + 0x48); } // string -> Draw2DLine ( ? )
+	IEntitySystem* GetIEntitySystem() { return *(IEntitySystem**)((DWORD64)this + 0xD8); } // string -> GetEntityByName || // string -> GetEntitiesByClass
 
 	static SSystemGlobalEnvironment* Singleton()
 	{
@@ -52,10 +52,8 @@ public:
 class IRenderer
 {
 public:
-	DWORD64* GetDirectDevice()
-	{
-		return (DWORD64*) * (DWORD64*)((DWORD64)this + 0xA6D0); // import -> D3DXCreateTexture -> j_D3DXCreateTexture -> 2 sub
-	}
+	char pad_0x0000[0xA6D0]; //0x0000
+	__int64 m_pDirectDevice; //0xA6D0 // import -> D3DXCreateTexture -> j_D3DXCreateTexture -> 2 sub
 };
 
 class IEntitySystem
@@ -113,11 +111,6 @@ public:
 		return VIRTUAL<bool(__thiscall*)(PVOID, IActor**)>(this, 142)(this, pIActor); // string -> sp_difficulty -> first SUB
 	}
 
-	IActorSystem* GetActorSystem()
-	{
-		return (IActorSystem*)*(DWORD64*)((DWORD64)this + 0x4E0); // string -> proximityRadius
-	}
-
 	IGameRules* GetIGameRules()
 	{
 		return VIRTUAL<IGameRules* (__thiscall*)(PVOID)>(this, 137)(this); // string -> IsSameTeam
@@ -128,6 +121,9 @@ public:
 		  v7 = (*(__int64 (**)(void))(**(_QWORD **)(a1 + 208) + 1096i64))(); <-- 1096 / 8 = 137 (if 64 bit = 8, if 32 bit = 4)
 		*/
 	}
+
+	char pad_0x0000[0x4E0]; //0x0000
+	IActorSystem* m_pActorSystem; //0x04E0 // string -> proximityRadius
 
 	static IGameFramework* Singleton() { return *(IGameFramework**)0x142056558; } // string -> Failed to create the GameFramework Interface!
 };
@@ -165,16 +161,14 @@ public:
 class IActor
 {
 public:
-	IEntity* GetLinkedEntity()
-	{
-		return (IEntity*)*(DWORD64*)((DWORD64)this + 0x10);
-	}
-
 	template <class T>
 	inline VOID Set(DWORD64 offset, T value)
 	{
 		*(T*)((DWORD64)this + offset) = value;
 	}
+
+	char pad_0x0000[0x10]; //0x0000
+	IEntity* m_pEntity; //0x0010 
 };
 
 class IActorSystem
