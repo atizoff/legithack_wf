@@ -3,8 +3,8 @@
 
 bool IsMyTeam(IActor* mIActor, IActor* eIActor)
 {
-	INT m_team = IGameFramework::Singleton()->GetIGameRules()->GetTeam(mIActor->GetLinkedEntity()->GetId());
-	INT e_team = IGameFramework::Singleton()->GetIGameRules()->GetTeam(eIActor->GetLinkedEntity()->GetId());
+	INT m_team = IGameFramework::Singleton()->GetIGameRules()->GetTeam(mIActor->m_pEntity->GetId());
+	INT e_team = IGameFramework::Singleton()->GetIGameRules()->GetTeam(eIActor->m_pEntity->GetId());
 
 	if (m_team != e_team || e_team == 0)
 		return true;
@@ -36,7 +36,7 @@ void function()
 					IEntityProxy* pEntityProxy = m_pEntity->GetProxy(ENTITY_PROXY_RENDER);
 					if (!pEntityProxy) continue;
 
-					if (IActor* pActor = g_pGame->GetActorSystem()->GetActor(m_pEntity->GetId()))
+					if (IActor* pActor = g_pGame->m_pActorSystem->GetActor(m_pEntity->GetId()))
 					{
 						if (!IsMyTeam(m_pActor, pActor)) continue;
 
