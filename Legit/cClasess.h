@@ -45,7 +45,7 @@ public:
 
 	static SSystemGlobalEnvironment* Singleton()
 	{
-		return *(SSystemGlobalEnvironment**)0x141D73AC0; // string -> ai_CompatibilityMode
+		return *(SSystemGlobalEnvironment**)0x141DB3060; // string -> ai_CompatibilityMode
 	}
 };
 
@@ -125,7 +125,7 @@ public:
 	char pad_0x0000[0x4E0]; //0x0000
 	IActorSystem* m_pActorSystem; //0x04E0 // string -> proximityRadius
 
-	static IGameFramework* Singleton() { return *(IGameFramework**)0x14207D4B8; } // string -> Failed to create the GameFramework Interface!
+	static IGameFramework* Singleton() { return *(IGameFramework**)0x1420BCA78; } // string -> Failed to create the GameFramework Interface!
 };
 
 class IGameRules
@@ -196,7 +196,7 @@ public:
 
 	static ICVar* Singleton()
 	{
-		return *(ICVar**)0x14207C820; // string -> IsSameTeam
+		return *(ICVar**)0x1420BBDD0; // string -> IsSameTeam
 		/* reverse
 
 			  ///////////////////// step 1
@@ -222,3 +222,4 @@ public:
 	}
 };
 
+//  https://vk.com/twardowskui - shit paster =(
