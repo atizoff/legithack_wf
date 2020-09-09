@@ -31,10 +31,10 @@ enum IActor_DATA : DWORD64
 enum ICVar_DATA : DWORD64
 {
 	// -> string -> by name
-	i_pelletsDisp = 0x128,
-	g_victoryCondition = 0x600,
-	i_unlimitedammo = 0x130,
-	cl_fov = 0x4
+    i_pelletsDisp = 0x12C,
+    g_victoryCondition = 0x5F8,
+    i_unlimitedammo = 0x134,
+    cl_fov = 0x4
 };
 
 class SSystemGlobalEnvironment
