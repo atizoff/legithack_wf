@@ -31,9 +31,9 @@ enum IActor_DATA : DWORD64
 enum ICVar_DATA : DWORD64
 {
 	// -> string -> by name
-	i_pelletsDisp = 0x12C,
-	g_victoryCondition = 0x5F8,
-	i_unlimitedammo = 0x134,
+	i_pelletsDisp = 0x128,
+	g_victoryCondition = 0x600,
+	i_unlimitedammo = 0x130,
 	cl_fov = 0x4
 };
 
@@ -45,15 +45,15 @@ public:
 
 	static SSystemGlobalEnvironment* Singleton()
 	{
-		return *(SSystemGlobalEnvironment**)0x141DB3060; // string -> ai_CompatibilityMode
+		return *(SSystemGlobalEnvironment**)0x141DD4640; // string -> ai_CompatibilityMode
 	}
 };
 
 class IRenderer
 {
 public:
-	char pad_0x0000[0xA6D0]; //0x0000
-	__int64 m_pDirectDevice; //0xA6D0 // import -> D3DXCreateTexture -> j_D3DXCreateTexture -> 2 sub
+	char pad_0x0000[0xA720]; //0x0000
+	__int64 m_pDirectDevice; //0xA720 // import -> D3DXCreateTexture -> j_D3DXCreateTexture -> 2 sub
 };
 
 class IEntitySystem
@@ -125,7 +125,7 @@ public:
 	char pad_0x0000[0x4E0]; //0x0000
 	IActorSystem* m_pActorSystem; //0x04E0 // string -> proximityRadius
 
-	static IGameFramework* Singleton() { return *(IGameFramework**)0x1420BCA78; } // string -> Failed to create the GameFramework Interface!
+	static IGameFramework* Singleton() { return *(IGameFramework**)0x1420DE108; } // string -> Failed to create the GameFramework Interface!
 };
 
 class IGameRules
@@ -196,7 +196,7 @@ public:
 
 	static ICVar* Singleton()
 	{
-		return *(ICVar**)0x1420BBDD0; // string -> IsSameTeam
+		return *(ICVar**)0x1420DD458; // string -> IsSameTeam
 		/* reverse
 
 			  ///////////////////// step 1
@@ -221,5 +221,3 @@ public:
 		*/ 
 	}
 };
-
-//  https://vk.com/twardowskui - shit paster =(
