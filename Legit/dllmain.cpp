@@ -3,16 +3,15 @@
 #include "cFunction.h"
 #include "vmt.h"
 
-typedef HRESULT(WINAPI* PresentSceneFN)(IDirect3DDevice9*, CONST RECT*, CONST RECT*, HWND, CONST RGNDATA*);
-PresentSceneFN oPresent;
-
+typedef HRESULT(WINAPI* EndSceneFN)(IDirect3DDevice9*);
+EndSceneFN oEndScene;
 
 VMTHookManager* VmtHook = new VMTHookManager;
 
-HRESULT WINAPI pPresent(IDirect3DDevice9* m_pDevice, CONST RECT* pSourceRect, CONST RECT* pDestRect, HWND hDestWindowOverride, CONST RGNDATA* pDirtyRegion)
+HRESULT WINAPI hkEndScene(IDirect3DDevice9* m_pDevice)
 {
 	function();
-	return oPresent(m_pDevice, pSourceRect, pDestRect, hDestWindowOverride, pDirtyRegion);
+	return oEndScene(m_pDevice);
 }
 
 void APIENTRY engine()
@@ -21,9 +20,8 @@ void APIENTRY engine()
 	Beep(800, 800);
 
 	VmtHook->bInitialize((PDWORD64*)SSystemGlobalEnvironment::Singleton()->GetIRenderer()->m_pDirectDevice);
-	oPresent = (PresentSceneFN)VmtHook->dwHookMethod((DWORD64)pPresent, 17);
+	oEndScene = (EndSceneFN)VmtHook->dwHookMethod((DWORD64)hkEndScene, 42);
 }
-
 
 BOOL WINAPI DllMain(HMODULE hModule, DWORD64 dwReason, LPVOID)
 {
