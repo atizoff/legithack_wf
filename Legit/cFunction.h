@@ -24,8 +24,9 @@ void function()
 			if (g_pGame->GetClientActor(&m_pActor)) // Наполняем нашего актора
 			{
 				m_pActor->Set(IActor_DATA::claymore_detector_radius, 999); // Установление видимости мин
+				m_pActor->SetRecoilAnimation(0); // Убираем отадчу
 
-				g_pCvar->Set(ICVar_DATA::i_pelletsDisp, 999.f); // Разброс
+				g_pCvar->Set(ICVar_DATA::i_pelletsDisp, 999.f); // Убираем разброс
 				g_pCvar->Set(ICVar_DATA::cl_fov, 90.f); // Фов
 
 
