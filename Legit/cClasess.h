@@ -45,7 +45,7 @@ public:
 
 	static SSystemGlobalEnvironment* Singleton()
 	{
-		return *(SSystemGlobalEnvironment**)0x141DD4640; // string -> ai_CompatibilityMode
+		return *(SSystemGlobalEnvironment**)0x141E0D2E0; // string -> ai_CompatibilityMode
 	}
 };
 
@@ -125,7 +125,7 @@ public:
 	char pad_0x0000[0x4E0]; //0x0000
 	IActorSystem* m_pActorSystem; //0x04E0 // string -> proximityRadius
 
-	static IGameFramework* Singleton() { return *(IGameFramework**)0x1420DE108; } // string -> Failed to create the GameFramework Interface!
+	static IGameFramework* Singleton() { return *(IGameFramework**)0x142116E28; } // string -> Failed to create the GameFramework Interface!
 };
 
 class IGameRules
@@ -167,6 +167,11 @@ public:
 		*(T*)((DWORD64)this + offset) = value;
 	}
 
+	void SetRecoilAnimation(int iStatus)
+	{
+		VIRTUAL<void(__thiscall*)(PVOID, int)>(this, 91)(this, iStatus);
+	}
+
 	char pad_0x0000[0x10]; //0x0000
 	IEntity* m_pEntity; //0x0010 
 };
@@ -196,7 +201,7 @@ public:
 
 	static ICVar* Singleton()
 	{
-		return *(ICVar**)0x1420DD458; // string -> IsSameTeam
+		return *(ICVar**)0x142116178; // string -> IsSameTeam
 		/* reverse
 
 			  ///////////////////// step 1
